@@ -14,7 +14,6 @@
  *  limitations under the License.
  *  under the License.
  */
-
 package org.ancora.SharedLibrary;
 
 import java.io.BufferedReader;
@@ -57,7 +56,7 @@ public class IoUtils {
       // the program when used to create the File object.
       if (folderpath == null) {
          Logger.getLogger(IoUtils.class.getName()).
-                 warning("Input argument is null.");
+                 warning("Input 'folderpath' is null.");
          return null;
       }
 
@@ -65,23 +64,22 @@ public class IoUtils {
       final File folder = new File(folderpath);
 
 
-        // The following checks where done in that sequence to avoid having
-        // more than one level of if-nesting.
+      // The following checks where done in that sequence to avoid having
+      // more than one level of if-nesting.
 
-        // Check if File is a folder
-        final boolean isFolder = folder.isDirectory();
-        if(isFolder) {
-            return folder;
-        }
+      // Check if File is a folder
+      final boolean isFolder = folder.isDirectory();
+      if (isFolder) {
+         return folder;
+      }
 
-        // Check if File exists. If true, is not a folder.
-        final boolean folderExists = folder.exists();
-        if(folderExists) {
-            Logger.getLogger(IoUtils.class.getName())
-                    .warning("Path '"+folderpath+"' exists, but " +
-                    "doesn't represent a folder.");
-            return null;
-        }
+      // Check if File exists. If true, is not a folder.
+      final boolean folderExists = folder.exists();
+      if (folderExists) {
+         Logger.getLogger(IoUtils.class.getName()).warning("Path '" + folderpath + "' exists, but " +
+                 "doesn't represent a folder.");
+         return null;
+      }
 
       // Try to create folder.
       final boolean folderCreated = folder.mkdirs();
@@ -98,7 +96,6 @@ public class IoUtils {
          return null;
       }
    }
-
 
    /**
     * Method to create a File object for a file which should exist.
@@ -123,30 +120,28 @@ public class IoUtils {
       final File file = new File(filepath);
 
 
-        // Check if File is a file
-        final boolean isFile = file.isFile();
-        if(isFile) {
-            return file;
-        }
+      // Check if File is a file
+      final boolean isFile = file.isFile();
+      if (isFile) {
+         return file;
+      }
 
-        // Check if File exists. If true, is not a file.
-        final boolean fileExists = file.exists();
-        if(fileExists) {
-            Logger.getLogger(IoUtils.class.getName()).
-                    warning("Path '"+filepath+"' exists, but doesn't " +
-                    "represent a file.");
-            return null;
-        }
-        else {
-           // File doesn't exist, return null.
-            Logger.getLogger(IoUtils.class.getName()).
-                    warning("Path '"+filepath+"' does not exist.");
-            return null;
+      // Check if File exists. If true, is not a file.
+      final boolean fileExists = file.exists();
+      if (fileExists) {
+         Logger.getLogger(IoUtils.class.getName()).
+                 warning("Path '" + filepath + "' exists, but doesn't " +
+                 "represent a file.");
+         return null;
+      } else {
+         // File doesn't exist, return null.
+         Logger.getLogger(IoUtils.class.getName()).
+                 warning("Path '" + filepath + "' does not exist.");
+         return null;
 
-        }
+      }
 
    }
-
 
    /**
     * Given a File object, returns a String with the contents of the file.
@@ -165,25 +160,6 @@ public class IoUtils {
                  warning("Input 'file' is null.");
          return "";
       }
-
-      /*
-      long lengthBytes = -1;
-
-      // Get length of file
-      lengthBytes = file.length();
-
-      // If length is 0, return empty string
-      if (lengthBytes == 0) {
-         Logger.getLogger(IoUtils.class.getName()).
-                 info("Reading empty file (" + file.getAbsolutePath() + ").");
-         return "";
-      }
-      */
-
-      // File has size greater than 0. Create StringBuilder using the file size
-      // as an estimate
-      //StringBuilder stringBuilder = new StringBuilder((int) lengthBytes);
-
 
       StringBuilder stringBuilder = new StringBuilder();
 
@@ -212,8 +188,8 @@ public class IoUtils {
       } catch (FileNotFoundException ex) {
          /*
          Logger.getLogger(IoUtils.class.getName()).
-                 warning("FileNotFoundException while trying to read " +
-                 "file '" + file.getAbsolutePath() + "'");
+         warning("FileNotFoundException while trying to read " +
+         "file '" + file.getAbsolutePath() + "'");
           */
          Logger.getLogger(IoUtils.class.getName()).
                  warning("FileNotFoundException: " + ex.getMessage());
@@ -222,23 +198,22 @@ public class IoUtils {
       } catch (IOException ex) {
          /*
          Logger.getLogger(IoUtils.class.getName()).
-                 warning("IOException while trying to read " +
-                 "file '" + file.getAbsolutePath() + "'");
+         warning("IOException while trying to read " +
+         "file '" + file.getAbsolutePath() + "'");
           */
          Logger.getLogger(IoUtils.class.getName()).
                  warning("IOException: " + ex.getMessage());
          stringBuilder = new StringBuilder(0);
       }
 
-      if(stringBuilder.length() == 0) {
-                  Logger.getLogger(IoUtils.class.getName()).
+      if (stringBuilder.length() == 0) {
+         Logger.getLogger(IoUtils.class.getName()).
                  info("Read 0 characters from file '" + file.getAbsolutePath() + "'.");
       }
 
 
       return stringBuilder.toString();
    }
-
 
    /**
     * Given a File object and a String, writes the contents of the String in the
@@ -270,7 +245,6 @@ public class IoUtils {
       return writeAppendHelper(file, contents, false);
    }
 
-
    /**
     * Given a File object and a String, writes the contents of the String at the
     * end of the file. If successful, returns true.
@@ -300,8 +274,6 @@ public class IoUtils {
       return writeAppendHelper(file, contents, true);
    }
 
-
-
    /**
     * Method shared among write and append.
     *
@@ -311,27 +283,6 @@ public class IoUtils {
     * @return
     */
    private static boolean writeAppendHelper(File file, String contents, boolean append) {
-
-
-      // TODO: Check effect of null String
-
-      // Check if path exists
-      /*
-      final boolean fileExists = file.exists();
-      if (!fileExists) {
-         console.warning("path \"" + file.getAbsolutePath() + "\" " +
-                 "doesn't " + "exist.");
-         return false;
-      }
-
-      // Path exists. Check if path is a file
-      final boolean isFileValid = file.isFile();
-      if (!isFileValid) {
-         console.warning("path \"" + file.getAbsolutePath() + "\" " +
-                 "exists, but isn't a file.");
-         return false;
-      }
-       */
 
       FileOutputStream stream = null;
       OutputStreamWriter streamWriter = null;
@@ -343,22 +294,21 @@ public class IoUtils {
          writer.close();
          // Inform about the operation
          if (append) {
-             Logger.getLogger(IoUtils.class.getName()).
-                     info("File appended (" + file.getAbsolutePath() + ").");
+            Logger.getLogger(IoUtils.class.getName()).
+                    info("File appended (" + file.getAbsolutePath() + ").");
          } else {
-             Logger.getLogger(IoUtils.class.getName()).
-                     info("File written (" + file.getAbsolutePath() + ").");
+            Logger.getLogger(IoUtils.class.getName()).
+                    info("File written (" + file.getAbsolutePath() + ").");
          }
 
       } catch (IOException ex) {
-          Logger.getLogger(IoUtils.class.getName()).
-                  warning("IOException: "+ex.getMessage());
+         Logger.getLogger(IoUtils.class.getName()).
+                 warning("IOException: " + ex.getMessage());
          return false;
       }
 
       return true;
    }
-
 
    /**
     * Given a File object, loads the contents of the file into a Java Properties
@@ -381,21 +331,24 @@ public class IoUtils {
       }
 
 
-       try {
+      try {
          Properties props = new Properties();
          props.load(new java.io.FileReader(file));
          return props;
       } catch (IOException ex) {
-          Logger.getLogger(IoUtils.class.getName()).
-                  warning("IOException: "+ex.getMessage());
+         Logger.getLogger(IoUtils.class.getName()).
+                 warning("IOException: " + ex.getMessage());
       }
 
-       return null;
+      return null;
    }
 
-    // DEFINITIONS
+   
+   //
+   //DEFINITIONS
+   //
    /**
     * Default CharSet used in file operations.
     */
-    final public static String DEFAULT_CHAR_SET = "UTF-8";
+   final public static String DEFAULT_CHAR_SET = "UTF-8";
 }

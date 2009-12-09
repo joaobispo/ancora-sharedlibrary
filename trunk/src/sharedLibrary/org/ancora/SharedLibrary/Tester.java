@@ -24,22 +24,25 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import org.ancora.SharedLibrary.Identification.ByteIdentifier;
 
 /**
  *
  * @author Ancora Group <ancora.codigo@gmail.com>
  */
-public class Tester {
+class Tester {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) throws MalformedURLException, IOException {
-        //testSafeFolder();
+       init();
+       //testSafeFolder();
        //testExistingFile();
        //testRead();
        //testWrite();
-       testLoadProperties();
+       //testLoadProperties();
+       testByteIdentifier();
 
        //testUrl();
     }
@@ -106,6 +109,19 @@ public class Tester {
       filename = "nonexistant";
 
       System.out.println("Result:"+IoUtils.loadProperties(new File(filename)));
+   }
+
+   private static void init() {
+      LoggingUtils.setupConsoleOnly();
+   }
+
+   private static void testByteIdentifier() {
+      ByteIdentifier id = new ByteIdentifier();
+
+      int cycles = 513;
+      for(int i=0; i<cycles; i++) {
+         System.out.println(id.newByte());
+      }
    }
 
 }

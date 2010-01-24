@@ -294,8 +294,13 @@ public class IoUtils {
          writer.close();
          // Inform about the operation
          if (append) {
-            Logger.getLogger(IoUtils.class.getName()).
-                    info("File appended (" + file.getAbsolutePath() + ").");
+            // Check if this is the same file as the last time
+            String filePath = file.getAbsolutePath();
+            if(!filePath.equals(lastAppeddedFileAbsolutePath)) {
+               lastAppeddedFileAbsolutePath = filePath;
+               Logger.getLogger(IoUtils.class.getName()).
+                       info("File appended (" + file.getAbsolutePath() + ").");
+            }
          } else {
             Logger.getLogger(IoUtils.class.getName()).
                     info("File written (" + file.getAbsolutePath() + ").");
@@ -351,4 +356,7 @@ public class IoUtils {
     * Default CharSet used in file operations.
     */
    final public static String DEFAULT_CHAR_SET = "UTF-8";
+
+   // Records the name of the last file appended
+   private static String lastAppeddedFileAbsolutePath = "";
 }

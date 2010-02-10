@@ -65,4 +65,60 @@ public class ParseUtils {
       return longResult;
    }
 
+   /**
+    * Removes, from String text, the portion of text after the rightmost
+    * occurrence of the specified separator.
+    *
+    * <p>Ex.: removeSuffix("readme.txt", ".")
+    * <br> Returns "readme".
+    * @param text a string
+    * @param separator a string
+    * @return a string
+    */
+   public static String removeSuffix(String text, String separator) {
+      int index = text.lastIndexOf(separator);
+
+      if(index == -1) {
+         return text;
+      }
+
+      return text.substring(0, index);
+   }
+
+   /**
+    * Transforms the given long in an hexadecimal string with the specified
+    * size.
+    *
+    * <p>Ex.: toHexString(10, 2)
+    * <br> Returns 0x0A.
+    *
+    * @param decimalLong a long
+    * @param stringSize the final number of digits in the hexadecimal
+    * representation
+    * @return a string
+    */
+   public static String toHexString(long decimalLong, int stringSize) {
+      String longString = Long.toHexString(decimalLong);
+      longString = BitUtils.padHexString(longString, stringSize);
+
+      return longString;
+   }
+
+   /**
+    * @param string a string
+    * @return the index of the first whitespace found in the given String, or
+    * -1 if none is found.
+    */
+   public static int indexOfFirstWhiteSpace(String string) {
+      int index = -1;
+
+      for(int i=0; i<string.length(); i++) {
+         if(Character.isWhitespace(string.charAt(i))) {
+            return i;
+         }
+      }
+
+      return index;
+   }
+
 }
